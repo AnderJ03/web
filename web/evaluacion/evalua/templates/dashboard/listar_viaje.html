@@ -1,0 +1,101 @@
+{% extends 'dashboard/vista_principal.html' %}
+{% block titulo %}
+Listado de Viajes
+{% endblock titulo %}
+
+{% block body %}
+<div>
+    <button class="btn btn-primary" type="button" 
+    onclick="abrir_modal_creacion('{% url 'crear_viaje' %}')">
+    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Viaje
+    </button>
+</div>
+
+{% if viajes_lista  %}
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title">Listado de Viajes</strong>
+        </div>
+        <div class="table-stats order-table ov-h">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ORIGEN</th>
+                        <th>DESTINO</th>
+                        <th>FECHA</th>
+                        <th>PRECIO</th>
+                        <th>CLASE</th>
+                        <th>CUPO</th>
+                        <th>RUTA</th>
+                        <th>BUS</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in viajes_lista %}
+                    <tr>
+                        <td>{{ p.id }}</td>
+                        <td>{{ p.origen }}</td>
+                        <td>{{ p.destino }}</td>
+                        <td>{{ p.fecha_hora }}</td>
+                        <td>{{ p.precio }}</td>
+                        <td>{{ p.clase }}</td>
+                        <td>{{ p.cupo }}</td>
+                        <td>{{ p.fk_ruta }}</td>
+                        <td>{{ p.fk_bus }}</td>
+            
+
+                        <td>
+                            <button class="btn btn-success" 
+                            onclick="abrir_modal_edicion('{% url 'editar_viaje' p.id %}')">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-danger" 
+                            onclick="abrir_modal_eliminar('{% url 'eliminar_viaje' p.id %}')">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% else %}
+    <h1>No existen Viajes registrados</h1>
+
+{% endif %}
+
+<div class="modal face" id="creacion" role="dialog">
+</div>
+<div class="modal face" id="edicion" role="dialog">
+</div>
+<div class="modal face" id="eliminar" role="dialog">
+</div>
+
+{% endblock body %}
+
+{% block extrajs %}
+<script type="text/javascript">
+var $ = jQuery.noConflic();
+function abrir_modal_creacion(url){
+    $('#creacion').load(url, function(){
+        $(this).modal('show')
+    });
+}
+function abrir_modal_edicion(url){
+    $('#edicion').load(url, function(){
+        $(this).modal('show')
+    });
+}
+function abrir_modal_eliminar(url){
+    $('#eliminar').load(url, function(){
+        $(this).modal('show')
+    });
+}
+</script>
+{% endblock extrajs %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+Registro Usuario
+{% endblock %}
+
+{% block content%}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Crear Nuevo Usuario</h2> <br>
+    {{ form.as_p }}
+
+    <input class="btn btn-primary" type="submit" value="Confirmar">
+    <a class="btn btn-danger" href="/login/" >Cancelar</a>
+
+</form>
+{% endblock %}
